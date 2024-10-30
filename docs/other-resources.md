@@ -5,7 +5,7 @@ Because UnifyBio is built heavily around the use of
 [Unify](https://github.com/vendekagon-labs/unify/),
 users are encourages to refer to documentation and tutorials for these. We also recommend
 perusing resources related to [CANDEL](https://candelbio.github.io/candel-bio-website/),
-the project which birthed the tools used in UnifyBio.
+the project which birthed prototypes of the tools used in UnifyBio.
 
 ## Datomic
 
@@ -23,20 +23,20 @@ in the [official Datomic documentation Day of Datomic topic](https://docs.datomi
 
 ## CANDEL resources
 
-In addition to the [website]
-and resources in the [GitHub repos]
-there have been multiple talks in CANDEL.
+In addition to the [website](https://candelbio.github.io/candel-bio-website/)
+and resources in the [GitHub repos](https://github.com/CANDELbio)
+there have been multiple talks on CANDEL, linked here for convenience.
 
-Strange Loop
+#### Building a Unified Cancer Immunotherapy Data Library
 
-https://www.youtube.com/watch?v=vwZxHVcfwuw
+[![Watch the video](https://img.youtube.com/vi/vwZxHVcfwuw/maxresdefault.jpg)](https://youtu.be/vwZxHVcfwuw)
 
-Conj Talk with Federico
+#### Clojure Where it Counts: Tidying Data Science Workflows
 
-https://www.youtube.com/watch?v=ulhr_50bevk
+[![Watch the video](https://img.youtube.com/vi/ulhr_50bevk/maxresdefault.jpg)](https://youtu.be/ulhr_50bevk)
 
-Four Year Summary Talk
 
-https://www.youtube.com/watch?v=2nIfNxZZhiQ
+#### Four Years of Datomic Powered ETL in Anger with CANDEL
 
+[![Watch the video](https://img.youtube.com/vi/2nIfNxZZhiQ/maxresdefault.jpg)](https://youtu.be/2nIfNxZZhiQ)
 

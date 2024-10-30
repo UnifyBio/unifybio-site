@@ -62,7 +62,7 @@ is a child of the `dataset`, and has children `measurement sets`, which have chi
 
 See the metamodel section of the [schema docs](schema.md) for more details.
 
-### dataset
+### Datasets
 
 The Unify CLI expects that all data being batch imported is modeled within the framework of a dataset.
 I.e., subjects, assays, samples, clinical observations, etc. are all part of a particular dataset.
@@ -70,7 +70,7 @@ This does not necessarily constraint downstream tooling (e.g. a query can look a
 all subjects for a dataset) but does structure imports and import config files. See the
 [Import Config](import-config.md) docs for more information.
 
-### reference data
+### Reference Data
 
 The Unify data model specifies that some of the contents of the database are Reference Data. Reference
 data consists of standard identifiers, controlled vocabularies, ontologies, and so on. It also refers
@@ -80,14 +80,15 @@ such as variants and genomic coordinates. Some reference data can be imported wi
 Unify CLI via special forms in the import config, more information about reference data can be found
 in the [schema docs](schema.md).
 
-### seed data
+### Seed Data
 
-Seed data refers to the subset of reference data which is bulk loaded into UnifyBio databases
+Seed data refers to the the portion of reference data which is bulk loaded into UnifyBio databases
 on creation. Due to CANDEL terminology priors, this is sometimes referred to as bootsrap data.
 This is usually data from a standard source, e.g. genes and gene products from HGNC and
-proteins and epitopes from Uniprot.
+proteins and epitopes from Uniprot. Every UnifyBio should provide seed data (or e.g. scripts
+for downloading seed data) as part of their software distribution.
 
-### import config files
+### Import Config Files
 
 An import config file specifies the mapping from however the data being is being imported (e.g.
 the ad hoc schema implied by a TSV file's column names) into the particular UnifyBio system's
@@ -122,9 +123,9 @@ metaschema for the Trino integration via Datomic analytics, or inferring a JSON 
 for enabling editors to provide static analysis and autocomplete functionality to users
 writing import configs.
 
-The availalbe `infer` tasks are documented in the [Unify CLI docs](unify-cli.md).
+The available `infer` tasks are documented in the [Unify CLI docs](unify-cli.md).
 
-### database management
+### Database Management
 
 UnifyBio systems typically manage multiple Datomic databases. Some of this is done through the
 Unify CLI, requesting databases to be used for transacting imports and validating data.
@@ -155,7 +156,7 @@ information on how the integration works and how it can be used to integrate Uni
 with traditional data warehouses and tools that map analysis workflows and visualization to
 generated SQL like Tableau or Apache Superset.
 
-## object storage and large integrated data
+### Object storage and highly dimensional molecular data
 
 UnifyBio stores highly dimensional molecular data in measurement matrices, which are then linked
 via identifiers to the primary Datomic databases where relational assay and clinical data are stored.
