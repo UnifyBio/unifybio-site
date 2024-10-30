@@ -40,7 +40,7 @@ This shows an example of working with a minimal import, using the Unify CLI.
 The first thing you will do is transform data from tables into entity map representations in _edn_ form,
 by using the Unify CLI prepare task.
 
-  ```bin/unify prepare --import-config $PATH-TO-TEMPLATE-DATASET/config.yml --working-directory PATH-TO-TEMP-DIRECTORY```
+  ```bin/unify prepare --import-config $PATH-TO-TEMPLATE-DATASET/config.yaml --working-directory PATH-TO-TEMP-DIRECTORY```
 
 When prepare has completed successfully, you are now able to transact the data into a database.
 To do so, first request a database from the local UnifyBio system:
