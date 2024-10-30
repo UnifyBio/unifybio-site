@@ -72,6 +72,6 @@ or [R](https://github.com/CANDELbio/wick) libraries.
 
 ### Query TODO:
 
-- simple Python script in Pattern ditributio
+- simple Python script in Pattern ditribution
 - how to configure PatternQ Python to talk to local system
 - example library call that enumerates some data
