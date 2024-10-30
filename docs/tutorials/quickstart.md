@@ -1,7 +1,6 @@
 # Quickstart
 
-This section contains step by step instructions to import the
-[template dataset]. Running these steps will help you make sure that everything is setup correctly on your system and also provide an overall view of the process.
+This section contains step by step instructions to import the template dataset, an example dataset constructed from multiple public data sources that exercises a large surface area of Unify's import functionality. Running these steps will help you make sure that everything is setup correctly on your system and also provide an overall view of the process.
 
 This quickstart assumpes you have a local UnifyBio distribution downloaded (such as 
 [the UnifyBio package](TODO)
