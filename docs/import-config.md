@@ -246,42 +246,90 @@ This is an invalid entity and would have failed validation
 
 ## Mapping of categorical variables
 
-Most categorical attributes are represented in the database as enums as opposed to string (e.g. sex is represented by the enums `:sex/female` and `:sex/male`). The `mappings.edn` dictates how unifywill map string values in your data to enums. The following snippet is an example from the template dataset:
+Most categorical attributes are represented in the database as enums as opposed to string (e.g. sex is represented by the enums `:sex/female` and `:sex/male`).
+The `mappings.edn` or `mappings.yaml` file (specified in the config in `[:unify/import :mappings]`)
+dictates how unify will map string values from TSV files in your data to enums. The following snippet is an example from the template dataset:
 
-The `:unifymappings` section of the file defines a set of mappings. The left side is the name of the mapping. The righthand side defines the mapping. In the mapping, the lefthand side in the CANDEL value, and the righthand side are the values in your file. The name of the mapping can be anything you want as long as it begins with a colon. This name is only used in the `pret/variables` section that defines which mappings to use for specific variables. The lefthand side names the schema attribute, and the righthand side specifies the mapping using the name you chose above.
+The `:unify/mappings` section of the file defines a set of mappings.
+The left side is the name of the mapping and these names can be re-used in mappings files.
+The right side defines the mapping, where the keys are valid data literals or enums in the schema, and the right is
+a vector (or array or list) of string values that remap to the key.
+The `:unify/variables` top level key in the file specifies which attributes (keys)
+each of the provided mappings (values) will apply to.
 
-```clojure
-{:unifymappings {:enum/metastasis {true ["Met" "T"]
-                                   false ["Primary" "N/A" "F" ""]}
-                 :enum/sex {:sex/female ["F"]
-                            :sex/male ["M"]}}
 
- :unifyvariables {:sample/metastasis :enum/metastasis
-                  :subject/sex :enum/sex}}
+```yaml title="yaml mappings example"
+unify/mappings:
+  enum/metastasis:
+    true:
+      - "Met"
+      - "T"
+    false:
+      - "Primary"
+      - "N/A"
+      - "F"
+      - ""
+  enum/sex:
+    sex/female:
+    - "F"
+    sex/male:
+    - "M"
+unify/variables:
+  sample/metastasis: "enum/metastasis"
+  subject/sex: "enum/sex"
+```
+
+```clojure title="edn mappings example"
+{:unify/mappings {:enum/metastasis {true ["Met" "T"]
+                                    false ["Primary" "N/A" "F" ""]}
+                  :enum/sex {:sex/female ["F"]
+                             :sex/male ["M"]}}
+
+ :unify/variables {:sample/metastasis :enum/metastasis
+                   :subject/sex :enum/sex}}
 
 ```
 
 ## Reverse references
 
-In some cases you may have to specify a reference between two entities `A -> B` but the entity type B does not have a unique identifier while A does. The only part of the schema where this currently happens is when you are specifying therapies for subjects. Subjects refer to therapies but, while subjects have an id, therapies do not. To handle such cases unifyprovides the option to specify references in reverse.
+In some cases you may have to specify a reference between two entities `A -> B` but the entity type B does not have a unique identifier while A does.
+The only part of the schema where this currently happens is when you are specifying therapies for subjects.
+Subjects refer to therapies but, while subjects have an id, therapies do not. To handle such cases unify
+provides the option to specify references in reverse.
 
-`:unifyrev-variable` specifies which column in the therapies file (`subject.id` in this case) refers back to the subject id in the subject file. `:pret/rev-attr` specifies which attribute in the parent entity (i.e. the subject) this reference should be attached to (`:subject/therapies` in this case)
+`:unify/rev-variable` specifies which column in the therapies file (`subject.id` in this case) refers back to the subject id in the subject file.
+`:unify/rev-attr` specifies which attribute in the parent entity (i.e. the subject) this reference should be attached to (`:subject/therapies` in this case).
 
-The config file looks as follows
-```clojure
-:subjects [{:unifyinput-file "processed/rizvi-subjects.txt"
+```yaml title="yaml reverse ref example" hl_lines="11-13"
+subjects:
+  - unify/input-tsv-file: "processed/rizvi-subjects.txt"
+    id: "subject.id"
+    sex: gender
+    meddra-disease: disease
+    smoker: smoker
+    therapies:
+    - unify/input-tsv-file: "processed/rizvi-therapies.txt"
+      treatment-regimen: "regimen"
+      line: "line"
+      unify/reverse:
+        unify/rev-variable: "subject.id"
+        unify/rev-attr: ":subject/therapies"
+```
+
+```clojure title="edn reverse ref example" hl_lines="9-10"
+:subjects [{:unify/input-tsv-file "processed/rizvi-subjects.txt"
             :id              "subject.id"
             :sex             "gender"   
             :meddra-disease  "disease"
             :smoker          "smoker"
-            :therapies       {:unifyinput-file   "processed/rizvi-therapies.txt"
+            :therapies       {:unify/input-tsv-file   "processed/rizvi-therapies.txt"
                               :treatment-regimen "regimen"
                               :line              "line"
-                              :unifyreverse      {:pret/rev-variable "subject.id"
-                                                  :unifyrev-attr     :subject/therapies}}}
+                              :unify/reverse      {:unify/rev-variable "subject.id"
+                                                   :unify/rev-attr     :subject/therapies}}}
 ```
 
-This is what the subjects file looks like
+This is what the subjects file looks like:
 
 |subject.id	|disease|	gender|	smoker|
 |-----------|-------|---------|-------|
@@ -301,12 +349,25 @@ and this is the therapies file
 
 ## Data fields with multiple values
 
-If your data has multiple values for an attribute in a single cell of the input table, you can tell unifyto split the content of the cell into individual values. For instance in the following example we have a single `Genes` column that contains multiple genes separated by `;`. `:cnv/genes` is a cardinality-many attribute, and therefore the set of genes will all be associated with a single entity.
+If your data has multiple values for an attribute in a single cell of the input table, you can tell unify
+to split the content of the cell into individual values. For instance in the following example we have a single
+`Genes` column that contains multiple genes separated by `;`. `:cnv/genes` is a cardinality-many attribute,
+and therefore the set of genes in each cell will all be associated with a single entity.
 
-This snippet shows how to configure unif to handle such cases
+This snippet shows how to direct Unify to handle these cases:
 
-```clojure
-:cnv {:unif/input-file #glob["processed/" "cnv_ref_*.tsv"]
+```clojure title="yaml multiple value example" hl_lines="6-7"
+cnv:
+  - unify/input-tsv-file: "processed/cnv_ref_3.tsv"
+    genomic-coordinates: "gc.id"
+    id: "gc.id"
+    genes:
+      unify/many-delimiter: ";"
+      unify/many-variable: "Genes"
+```
+
+```clojure title="edn multiple value example" hl_lines="4-5"
+:cnv {:unify/input-tsv-file "processed/cnv_ref_3.tsv"]
       :genomic-coordinates "gc.id"
       :id  "gc.id"
       :genes {:unif/many-delimiter ";"
@@ -323,12 +384,23 @@ This is what the corresponding data table looks like
 
 ## Constant values
 
-You can use the `:unif/constants` directive to specify values that you want to be constant across all the entities in a file. For instance in the following example all the measurements entity generated by pret will have a `:measurement/epitope` attribute with value `LDHA`
+You can use the `:unify/constants` directive to specify values that you want to be constant across all the entities in a file.
+For instance in the following example all the measurements entity generated by pret will have a `:measurement/epitope` attribute with value `LDHA`.
 
-```clojure
-:measurements {:unif/input-file   "processed/ldh_meas_and_samples.txt"
-               :sample            "sample.id"
-               :measurement/ng-mL "LDH @ Baseline"
-               ; The :unif/constants key allows you to specify an attribute that is constant across all entities in the input file
-               ; Here that means that every measurement in the LDH input file is targeting the LDHA protein
-               :unif/constants    {:measurement/epitope "LDHA"}}}]}
+```yaml title="yaml constants example" hl_lines="5-6"
+:measurements
+  - unify/input-tsv-file: "processed/ldh_meas_and_samples.txt"
+    sample: "sample.id"
+    measurement/ng-mL: "LDH @ Baseline"
+    unify/constants
+      - measurement/epitope: "LDHA"
+```
+
+```clojure title="edn constants example" hl_lines="4"
+:measurements {:unif/input-tsv-file   "processed/ldh_meas_and_samples.txt"
+               :sample                "sample.id"
+               :measurement/ng-mL     "LDH @ Baseline"
+               :unif/constants        {:measurement/epitope "LDHA"}}}]}
+```
+
+The end.
