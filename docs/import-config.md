@@ -5,7 +5,7 @@ a UnifyBio schema's data model.
 
 # Writing import config files
 
-The [template](https://dev.azure.com/parkerici/unifydatasets/_git/template) dataset showcases most of the functionality of UnifyBio.
+The template dataset showcases most of the functionality of UnifyBio.
 The config file is available in both [yaml](https://github.com/vendekagon-labs/unify/blob/main/test/resources/systems/candel/template-dataset/config.yaml)
 and [edn](https://github.com/vendekagon-labs/unify/blob/main/test/resources/systems/candel/template-dataset/config.edn)
 forms. If you're new to UnifyBio, we recommend you start with yaml
