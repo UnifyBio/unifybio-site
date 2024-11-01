@@ -84,9 +84,8 @@ dataset:
           :url          "http://science.sciencemag.org/content/suppl/2015/03/11/science.aaa1348.DC1"}
 ```
 
-
 ### Loading data from input TSV files
-To load data from input files (which must be in TSV format), we use the `:unify/input-file` key (see below).
+To load data from input files (which must be in TSV format), we use the `:unify/input-tsv-file` key (see below).
 Note that the input file path is relative to the `config.edn` or `config.yaml` file location.
 
 #### Static attributes (standard table / wide format)
@@ -102,7 +101,7 @@ measurements:
     nanosring-count: value
 ```
 
-```edn title="edn measurements file directive"
+```clojure title="edn measurements file directive"
 :measurements [{:unify/input-tsv-file  "processed/nanostring.txt"
                 :gene-product     "variable"
                 :sample           "sample"
@@ -356,7 +355,7 @@ and therefore the set of genes in each cell will all be associated with a single
 
 This snippet shows how to direct Unify to handle these cases:
 
-```clojure title="yaml multiple value example" hl_lines="6-7"
+```yaml title="yaml multiple value example" hl_lines="6-7"
 cnv:
   - unify/input-tsv-file: "processed/cnv_ref_3.tsv"
     genomic-coordinates: "gc.id"
