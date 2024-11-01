@@ -3,7 +3,7 @@
 An import config file specifies a mapping from ad hoc tables and their contents to
 a UnifyBio schema's data model.
 
-# Writing import config files
+## Writing import config files
 
 The template dataset showcases most of the functionality of UnifyBio.
 The config file is available in both [yaml](https://github.com/vendekagon-labs/unify/blob/main/test/resources/systems/candel/template-dataset/config.yaml)
@@ -12,7 +12,25 @@ forms. If you're new to UnifyBio, we recommend you start with yaml
 since Unify is able to generate JSON schema that editors can use to provide autocompletion and static analysis for
 import config files.
 
-Here you can find some more specifics about different sections of the config file and the corresponding data files.
+### Configuring JSON Schema for Editor Assistance with YAML config files
+
+If you are using the Pattern distribution, `pattern-import-config-schema.json` has been pre-generated and provided
+for you. If you are not, you can generate a JSON schema for your own Unify schema with:
+
+```
+bin/unify infer-json-schema --json-schema YOUR-FILE-NAME.json
+```
+
+Most editors support applying json schema to YAML files as you edit, we provide links for the docs and plugins on how to do so below:
+
+* VSCode
+    - RedHat [YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml)
+    - Go to settings (Code > Settings > Settings on Mac) and add a path to the JSON schema file under the key "yaml.schemas".
+        * More detailed instructions [here](https://dev.to/brpaz/how-to-create-your-own-auto-completion-for-json-and-yaml-files-on-vs-code-with-the-help-of-json-schema-k1i).
+* JetBrains products (e.g. IntelliJ, PyCharm, etc.)
+    - [Method 1](https://www.jetbrains.com/help/idea/yaml.html#select-schema-for-file): provide configuration via the JSON Schema Mappings setting.
+    - [Method 2](https://www.jetbrains.com/help/idea/yaml.html#use-schema-keyword): annotate the YAML file with a path to the spec in a comment.
+
 
 ## General config file structure
 
