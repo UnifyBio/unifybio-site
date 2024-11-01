@@ -11,8 +11,10 @@ data system, consisting of one or many
 UnifyBio is a set of libraries, schemas, and various tools that make use of the Unify CLI
 and its schema annotations, as well as common conventions for biological data,
 in order to harmonize disparate data into common data models, store data in granular
-time pronvenaced storage, and to provide data consistency and quality checks, along with
-an ecosystem of downstream access and analysis tools that 
+time pronvenaced storage, and to provide data consistency and quality checks.
+UnifyBio also provides an ecosystem of downstream access and analysis tools that enable
+integrations with and exports to a variety of systems, both fulfilling and going
+beyond [FAIR Principles](https://www.nature.com/articles/sdata201618). 
 
 
 ### unify CLI
@@ -24,22 +26,25 @@ Unify is open source and Apache licensed and available at
 
 By convention, UnifyBio projects such as the Pattern Data Commons distribute
 Unify as part of a software package/distribution in a `bin/` subdirectory,
-where it can be accessed via
-commands such as:
+where it can be accessed via commands such as:
 
 ```bash
 bin/unify --import-config ~/import-name/config.yaml --working-directory ~/prepared-data/import-name
 ```
 
-### datomic
+### Datomic
 
-Unify uses Datomic as its central store of record, and stores all relational
-data in Datomic databases. Unify is designed to be able to work with multiple
+Unify uses [Datomic](https://www.datomic.com/)
+as its central store of record, and stores all relational
+data in Datomic databases. Unify is designed to work with multiple
 Datomic databases, and most UnifyBio workflows expect multiple databases, possibly
 containing multiple versions of datasets, with a central database which indexes
-and tracks dataset states and readiness.
+and tracks dataset states and readiness. Most of UnifyBio's
+affordances re: granular time provenance, sparse representations,
+and arbitrarily accessible data are architecture properties
+hoisted through its use of Datomic.
 
-### unify schema
+### Unify schema
 
 A Unify schema as stored in Datomic consists of four different components:
 
@@ -54,6 +59,9 @@ For one example full schema, see the reference [CANDEL schema](https://github.co
 
 See the [schema docs](schema.md) for more information about schemas and other example schemas.
 
+You can also visualize an example schema hosted by RCRF
+[here](http://rcrf-data-commons-dashboard--env.eba-t2nvd7ac.us-east-1.elasticbeanstalk.com/schema/1.3.1/index.html).
+
 ### The Unify Metamodel
 
 Unify's metamodel enables the Unify CLI's declarative, data-driven ETL process. The metamodel encodes relations between entities
@@ -65,7 +73,7 @@ See the metamodel section of the [schema docs](schema.md) for more details.
 ### Datasets
 
 The Unify CLI expects that all data being batch imported is modeled within the framework of a dataset.
-I.e., subjects, assays, samples, clinical observations, etc. are all part of a particular dataset.
+I.e., that subjects, assays, samples, clinical observations, etc. are all part of a particular dataset.
 This does not necessarily constraint downstream tooling (e.g. a query can look at all subjects, not just
 all subjects for a dataset) but does structure imports and import config files. See the
 [Import Config](import-config.md) docs for more information.
@@ -84,23 +92,23 @@ in the [schema docs](schema.md).
 
 Seed data refers to the the portion of reference data which is bulk loaded into UnifyBio databases
 on creation. Due to CANDEL terminology priors, this is sometimes referred to as bootsrap data.
-This is usually data from a standard source, e.g. genes and gene products from HGNC and
-proteins and epitopes from Uniprot. Every UnifyBio should provide seed data (or e.g. scripts
-for downloading seed data) as part of their software distribution.
+This is usually data from a standards provider, e.g. genes and gene products from HGNC and
+proteins and epitopes from UniProt. Every UnifyBio distribution should provide seed data
+(or e.g. scripts for downloading seed data) as part of their software distribution.
 
 ### Import Config Files
 
-An import config file specifies the mapping from however the data being is being imported (e.g.
+An import config file specifies the mapping from the conents of several data files (e.g.
 the ad hoc schema implied by a TSV file's column names) into the particular UnifyBio system's
 schema. Import config files are specified in detail in the [import config][import-config.md] docs.
 
-### working directory
+### Working Directory
 
 The _working directory_ is a directory that the Unify CLI writes to and stores intermediate outputs
 and representations in while data is being prepared, and which contains all the contents needed
 to transact data.
 
-### prepare task
+### Prepare Task
 
 Before data can be transacted into a Unify system's datomic database and object storage, the import
 config must be used to create [edn](https://github.com/edn-format/edn) data, which can be
@@ -108,17 +116,18 @@ transacted into Datomic database systems (or, with future planned extensions, in
 
 Details on running prepare are documented in the [Unify CLI docs](unify-cli.md).
 
-### transact task
+### Transact Task
 
 Transaction takes data off disk and stores it in the distributed representation model specified by a UnifyBio system.
 Once data has been prepared into a working directory, it is ready to be transacted.
 
 Details on running transact are documented in the [Unify CLI docs](unify-cli.md).
 
-### inference tasks
+### Inference tasks
 
 The Unify schema and metamodel are used not only for inference throughout the UnifyBio stack,
-but also for integration with other tools and systems. This includes things like inferring a
+but also for generating integrations with other tools and systems.
+This includes things like inferring a
 metaschema for the Trino integration via Datomic analytics, or inferring a JSON schema
 for enabling editors to provide static analysis and autocomplete functionality to users
 writing import configs.
