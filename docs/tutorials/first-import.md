@@ -490,7 +490,7 @@ make this as painless as possible. It can't magically provide the missing inform
 the bogus xslx file the vendor put in your Box folder, but it will do its best to identify
 any issues those sorts of things introduce.
 
-### Further Steps
+## Further Steps
 
 To see most of what's possible in a Unify import, refer to the
 [template dataset](https://github.com/vendekagon-labs/unify/blob/main/test/resources/systems/candel/template-dataset/config.yaml)
