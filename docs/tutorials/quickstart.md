@@ -16,19 +16,21 @@ you will need to contact [RCRF](https://rarecancer.org/initiatives).
 
 To use the provided local system, you need to [install Docker](https://docs.docker.com/)
 and ensure you can stand up a local system with Docker Compose. You will also need a JVM
-(version 17 or later recommended). One might already have one available,
+(version 17 or later recommended). You might already have one available,
 which you can check by running:
 
 ```
 java -version
 ```
 
-in a terminal. If you do not have a JVM installed, [Temurin 17](https://adoptium.net/installation/)
+in a terminal. If you do not have a JVM installed, [Temurin 17 or 22](https://adoptium.net/installation/)
 is a good default.
 
-Download the latest version of the template-dataset
-[here](https://github.com/vendekagon-labs/unify/tree/main/test/resources/systems/candel/template-dataset) and unzip to a directory you will
-remember, and with a path reachable for command line tools.
+The Pattern distribution contains a copy of the template-dataset in the `template-dataset/`
+subdirectory. You can also browse the copy used in Unify's test systems
+[here](https://github.com/vendekagon-labs/unify/tree/main/test/resources/systems/candel/template-dataset).
+
+### Starting the local system
 
 Download and unzip your UnifyBio distribution. If you have not been provided one, you can use
 the Pattern distribution provided by [RCRF](https://rarecancer.org/initiatives).
