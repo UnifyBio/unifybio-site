@@ -16,14 +16,14 @@ you will need to contact [RCRF](https://rarecancer.org/initiatives).
 
 To use the provided local system, you need to [install Docker](https://docs.docker.com/)
 and ensure you can stand up a local system with Docker Compose. You will also need a JVM
-(version 17 or later recommended). You might already have one available,
+(version 21 or later required). You might already have one available,
 which you can check by running:
 
 ```
 java -version
 ```
 
-in a terminal. If you do not have a JVM installed, [Temurin 17 or 22](https://adoptium.net/installation/)
+in a terminal. If you do not have a JVM installed, [Temurin 21 or 22](https://adoptium.net/installation/)
 is a good default.
 
 #### Additional configuration

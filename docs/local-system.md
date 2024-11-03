@@ -40,7 +40,7 @@ all that is stricly necessary is to navigate the directory which contains the
 
 While containerization provides user convienence, it also results in operational
 complexity that is not stricly necessary for use.
-UnifyBio is tested and supports use with JVM 17 and 21 conforming
+UnifyBio is tested and supports use with JVM 21+ conforming
 distributions of
 [temurin](https://adoptium.net/temurin/releases/),
 [corretto](https://aws.amazon.com/corretto/?filtered-posts.sort-by=item.additionalFields.createdDate&filtered-posts.sort-order=desc), and
