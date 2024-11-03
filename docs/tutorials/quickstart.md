@@ -26,11 +26,20 @@ java -version
 in a terminal. If you do not have a JVM installed, [Temurin 17 or 22](https://adoptium.net/installation/)
 is a good default.
 
-The Pattern distribution contains a copy of the template-dataset in the `template-dataset/`
-subdirectory. You can also browse the copy used in Unify's test systems
-[here](https://github.com/vendekagon-labs/unify/tree/main/test/resources/systems/candel/template-dataset).
+#### Additional configuration
 
-### Starting the local system
+The current Pattern distribution requires hostname remapping at the OS level
+to ensure the Unify CLI's peer process can communicate with the other system
+components using the same configuration. Edit your `/etc/hosts` file and
+add these two entries:
+
+```python title="/etc/hosts" hl_lines="2-3"
+127.0.0.1	localhost
+127.0.0.1	transactor
+127.0.0.1	postgres
+```
+
+#### Starting the local system
 
 Download and unzip your UnifyBio distribution. If you have not been provided one, you can use
 the Pattern distribution provided by [RCRF](https://rarecancer.org/initiatives).
@@ -47,7 +56,11 @@ running with Docker compose.
 
 ## Simple Import Workflow
 
-This quickstart shows an example of working with a minimal import, using the Unify CLI.
+This quickstart shows an example of working with a minimal import, using the Unify CLI and
+the template dataset. The Pattern distribution contains a copy of the template-dataset in the `template-dataset/`
+subdirectory. You can also browse the copy used in Unify's test systems
+[here](https://github.com/vendekagon-labs/unify/tree/main/test/resources/systems/candel/template-dataset).
+
 
 ### Prepare
 
