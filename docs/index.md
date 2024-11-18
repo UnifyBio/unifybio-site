@@ -1,9 +1,9 @@
 # About UnifyBio
 
-UnifyBio is a set of power tools for data-driven data harmoniozation, ETL, analysis,
+UnifyBio is a set of power tools for data-driven data harmonization, ETL, analysis,
 and visualization, designed for use by informaticians in the translational sciences.
 UnifyBio is aimed at building and co-locating high quality clinical and molecular datasets
-by enabling even small teams to extract data out of ad hoc tables, schemas, and siloes, and
+by extracting data out of ad hoc tables, schemas, and siloes, and
 into unified representations with a simple, declarative workflow.
 UnifyBio's distributed data formats store highly dimensional and relationally intertwined datasets efficiently
 in distributed systems, making them available for full query, semantically rich exploration,
